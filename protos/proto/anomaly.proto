@@ -1,0 +1,74 @@
+syntax="proto3";
+
+option go_package = "/solom/pb";
+
+package solom;
+
+service Anomaly {
+    rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeUpdate){}
+}
+
+
+message SubscribeRequest {
+    string source = 1;
+    SubscribeRequestFilterVolume volume = 2;
+    SubscribeRequestFilterOHLC ohlc = 3;
+}
+
+message SubscribeRequestFilterVolume {
+    oneof condition {
+        VolumeAbove above = 1;
+        VolumeBelow below = 2;
+        VolumeBetween between = 3;
+    }
+}
+message SubscribeRequestFilterOHLC {
+    string amm_id = 1;
+    int64 time_interval = 2;
+}
+
+message VolumeAbove {
+  float threshold = 1; 
+}
+
+message VolumeBelow {
+  float threshold = 1; 
+}
+
+message VolumeBetween {
+  float min = 1; 
+  float max = 2; 
+}
+
+message SubscribeUpdate {
+    oneof update_oneof {
+        SubscribeUpdateVolume volume = 2;
+        SubscribeUpdateOHLC ohlc = 3;
+    }
+}
+
+message SubscribeUpdateVolume {
+    string amm_id = 1;
+    string mint = 2;
+    string name = 3;
+    string ticker = 4;
+    double base_vault = 5;
+    double token_price = 6;
+    double volume_1m = 7;
+    bool is_pump_fun = 8;
+    int64 trigger_value = 9;
+    string signature = 10;
+}
+
+message SubscribeUpdateOHLC {
+    string amm_id = 1;
+    int64 time_interval = 2;
+    map<int64,OHLC> prices = 3; 
+}
+
+message OHLC {
+    double open = 1;
+    double high = 2;
+    double low = 3;
+    double close = 4;
+}
