@@ -1,16 +1,31 @@
-import { ChannelOptions, credentials, } from "@grpc/grpc-js";
-import { AnomalyClient } from "../../protos/pb/anomaly_grpc_pb";
-import { SubscribeRequest } from "../../protos/pb/anomaly_pb";
+import { ChannelOptions, credentials, Metadata, CallOptions } from "@grpc/grpc-js";
+import { solom } from "../../protos/anomaly"
 
-export type SubscribeArgs = {
-    subscription: SubscribeRequest
-    onError: (data: any, error: any) => void,
-    onData: (data: any, error: any) => void,
-    onEnd: (data: any, error: any) => void
+type SubscribeArgs = {
+    solBalance: {
+        max?: number,
+        min?: number
+    },
+    isPumpfun: boolean,
+    transaction: {
+        mint?: string[],
+        signer?: string[],
+        max?: number,
+        min?: number
+    }
 }
 
-class GrpcClient {
-    private client: any
+type CheckVolumeArgs = {
+    time_range: string[];
+    action: string;
+    operator: string;
+    value: number;
+    amm_id: string;
+}
+
+export class GrpcClient {
+    private _client
+    private host: string
 
     constructor(address: string) {
         const keepaliveParams: ChannelOptions = {
@@ -27,34 +42,123 @@ class GrpcClient {
         };
 
 
-        this.client = new AnomalyClient(
-            address,
+        this._client = new solom.AnomalyClient(address,
             credentials.createInsecure(),
             options
         )
+
+        this.host = address
     }
 
+    get client() {
+        return this._client
+    }
 
+    public subscribe({ solBalance, isPumpfun, transaction }: Partial<SubscribeArgs>) {
+        let request = new solom.SubscribeRequest()
 
-    public subscribe({ subscription, onData, onEnd, onError }: SubscribeArgs) {
-        const call = this.client.subscribe(subscription)
-
-        call.on('error', onError)
-        call.on('data', onData)
-
-
-        const _onEnd = function (data: any, error: any) {
-            onEnd(data, error)
-            call.end()
+        if (solBalance != undefined) {
+            request.sol_balance = new solom.SubscribeRequestFilterSolBalance(solBalance)
         }
 
-        call.on('end', _onEnd)
-        call.write(subscription)
-        console.log(call)
-        console.log("Subsribe")
+        if (isPumpfun != undefined) {
+            request.pumpfun = new solom.SubscribeRequestFilterPumpFun({ is_pumpfun: isPumpfun })
+        }
+
+        if (transaction != undefined) {
+            request.transaction = new solom.SubscribeRequestFilterTransactionFilter(transaction)
+        }
+
+        let options: CallOptions = {}
+        let stream = this.client.Subscribe(options)
+
+        stream.on('data', (chunk: solom.SubscribeUpdate) => {
+            console.log('data', chunk.toObject())
+        })
+
+        stream.on('error', (chunk) => {
+            console.log('error', chunk)
+        })
+
+        stream.write(new solom.SubscribeRequest(request), (chunk: solom.SubscribeUpdate) => {
+            console.log(chunk)
+        })
+    }
+
+    public getOHLCPriceAllWindow(mint: string, duration: number): Promise<solom.OHLCPriceAllWindow | undefined> {
+        return new Promise((resolve, reject) => {
+            let options: CallOptions = {
+            }
+
+            this.client.GetOHLCPriceAllWindow(
+                new solom.GetOHLCPriceAllWindowArgs({ mint, duration }),
+                new Metadata({ waitForReady: true }),
+                options,
+                (error, data) => {
+                    if (error || !data) {
+                        reject(error)
+                    } else {
+                        resolve(data)
+                    }
+                })
+        })
+    }
+
+    public getPriceAllWindow(mint: string): Promise<solom.PriceAllWindow | undefined> {
+        return new Promise((resolve, reject) => {
+            let options: CallOptions = {
+            }
+
+            this.client.GetPriceAllWindow(
+                new solom.Mint({ mint }),
+                new Metadata({ waitForReady: true }),
+                options,
+                (error, data) => {
+                    if (error || !data) {
+                        reject(error)
+                    } else {
+                        resolve(data)
+                    }
+                })
+        })
+    }
+
+    public getVolumeAllWindow(amm_id: string): Promise<solom.VolumeAllWindow | undefined> {
+        return new Promise((resolve, reject) => {
+            let options: CallOptions = {
+            }
+
+            this.client.GetVolumeAllWindow(
+                new solom.AmmId({ amm_id }),
+                new Metadata({ waitForReady: true }),
+                options,
+                (error, data) => {
+                    if (error || !data) {
+                        reject(error)
+                    } else {
+                        resolve(data)
+                    }
+                })
+        })
+    }
+
+    public checkVolume(req: CheckVolumeArgs): Promise<boolean | undefined> {
+        return new Promise((resolve, reject) => {
+
+            let request = new solom.CheckVolumeArgs(req)
+            let options: CallOptions = {}
+
+            this.client.CheckVolume(
+                request,
+                new Metadata({ waitForReady: true }),
+                options,
+                (error, data) => {
+                    if (error || !data) {
+                        reject(error)
+                    } else {
+                        resolve(data.value)
+                    }
+                })
+        })
     }
 }
-
-
-
-export const grpcClient = new GrpcClient("127.0.0.1:1234")

@@ -28,6 +28,11 @@ const config = convict({
 		default: '',
 		env: 'TELEGRAM_BOT_TOKEN',
 	},
+	grpc_url: {
+		format: String,
+		default: '127.0.0.1:3000',
+		env: 'GRPC_URL',
+	},
 })
 
 config.validate({ allowed: 'strict' })
