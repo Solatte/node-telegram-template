@@ -4,17 +4,6 @@
 var grpc = require('grpc');
 var protos_anomaly_pb = require('../protos/anomaly_pb.js');
 
-function serialize_solom_AmmId(arg) {
-  if (!(arg instanceof protos_anomaly_pb.AmmId)) {
-    throw new Error('Expected argument of type solom.AmmId');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_solom_AmmId(buffer_arg) {
-  return protos_anomaly_pb.AmmId.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_solom_Boolean(arg) {
   if (!(arg instanceof protos_anomaly_pb.Boolean)) {
     throw new Error('Expected argument of type solom.Boolean');
@@ -48,6 +37,17 @@ function deserialize_solom_GetOHLCPriceAllWindowArgs(buffer_arg) {
   return protos_anomaly_pb.GetOHLCPriceAllWindowArgs.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_solom_GetOneMinuteVolumeByWindowArgs(arg) {
+  if (!(arg instanceof protos_anomaly_pb.GetOneMinuteVolumeByWindowArgs)) {
+    throw new Error('Expected argument of type solom.GetOneMinuteVolumeByWindowArgs');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_GetOneMinuteVolumeByWindowArgs(buffer_arg) {
+  return protos_anomaly_pb.GetOneMinuteVolumeByWindowArgs.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_solom_Mint(arg) {
   if (!(arg instanceof protos_anomaly_pb.Mint)) {
     throw new Error('Expected argument of type solom.Mint');
@@ -68,6 +68,17 @@ function serialize_solom_OHLCPriceAllWindow(arg) {
 
 function deserialize_solom_OHLCPriceAllWindow(buffer_arg) {
   return protos_anomaly_pb.OHLCPriceAllWindow.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_solom_OneMinuteVolumeByWindow(arg) {
+  if (!(arg instanceof protos_anomaly_pb.OneMinuteVolumeByWindow)) {
+    throw new Error('Expected argument of type solom.OneMinuteVolumeByWindow');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_OneMinuteVolumeByWindow(buffer_arg) {
+  return protos_anomaly_pb.OneMinuteVolumeByWindow.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_solom_PriceAllWindow(arg) {
@@ -103,17 +114,6 @@ function deserialize_solom_SubscribeUpdate(buffer_arg) {
   return protos_anomaly_pb.SubscribeUpdate.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_solom_VolumeAllWindow(arg) {
-  if (!(arg instanceof protos_anomaly_pb.VolumeAllWindow)) {
-    throw new Error('Expected argument of type solom.VolumeAllWindow');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_solom_VolumeAllWindow(buffer_arg) {
-  return protos_anomaly_pb.VolumeAllWindow.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 
 var AnomalyService = exports.AnomalyService = {
   subscribe: {
@@ -138,16 +138,16 @@ var AnomalyService = exports.AnomalyService = {
     responseSerialize: serialize_solom_PriceAllWindow,
     responseDeserialize: deserialize_solom_PriceAllWindow,
   },
-  getVolumeAllWindow: {
-    path: '/solom.Anomaly/GetVolumeAllWindow',
+  getOneMinuteVolumeByWindow: {
+    path: '/solom.Anomaly/GetOneMinuteVolumeByWindow',
     requestStream: false,
     responseStream: false,
-    requestType: protos_anomaly_pb.AmmId,
-    responseType: protos_anomaly_pb.VolumeAllWindow,
-    requestSerialize: serialize_solom_AmmId,
-    requestDeserialize: deserialize_solom_AmmId,
-    responseSerialize: serialize_solom_VolumeAllWindow,
-    responseDeserialize: deserialize_solom_VolumeAllWindow,
+    requestType: protos_anomaly_pb.GetOneMinuteVolumeByWindowArgs,
+    responseType: protos_anomaly_pb.OneMinuteVolumeByWindow,
+    requestSerialize: serialize_solom_GetOneMinuteVolumeByWindowArgs,
+    requestDeserialize: deserialize_solom_GetOneMinuteVolumeByWindowArgs,
+    responseSerialize: serialize_solom_OneMinuteVolumeByWindow,
+    responseDeserialize: deserialize_solom_OneMinuteVolumeByWindow,
   },
   getOHLCPriceAllWindow: {
     path: '/solom.Anomaly/GetOHLCPriceAllWindow',

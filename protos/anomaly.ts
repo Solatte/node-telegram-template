@@ -520,96 +520,6 @@ export namespace solom {
             return SubscribeRequestFilterTransactionFilter.deserialize(bytes);
         }
     }
-    export class SubscribeRequestFilterOHLC extends pb_1.Message {
-        #one_of_decls: number[][] = [];
-        constructor(data?: any[] | {
-            amm_id?: string;
-            time_interval?: number;
-        }) {
-            super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
-            if (!Array.isArray(data) && typeof data == "object") {
-                if ("amm_id" in data && data.amm_id != undefined) {
-                    this.amm_id = data.amm_id;
-                }
-                if ("time_interval" in data && data.time_interval != undefined) {
-                    this.time_interval = data.time_interval;
-                }
-            }
-        }
-        get amm_id() {
-            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
-        }
-        set amm_id(value: string) {
-            pb_1.Message.setField(this, 1, value);
-        }
-        get time_interval() {
-            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
-        }
-        set time_interval(value: number) {
-            pb_1.Message.setField(this, 2, value);
-        }
-        static fromObject(data: {
-            amm_id?: string;
-            time_interval?: number;
-        }): SubscribeRequestFilterOHLC {
-            const message = new SubscribeRequestFilterOHLC({});
-            if (data.amm_id != null) {
-                message.amm_id = data.amm_id;
-            }
-            if (data.time_interval != null) {
-                message.time_interval = data.time_interval;
-            }
-            return message;
-        }
-        toObject() {
-            const data: {
-                amm_id?: string;
-                time_interval?: number;
-            } = {};
-            if (this.amm_id != null) {
-                data.amm_id = this.amm_id;
-            }
-            if (this.time_interval != null) {
-                data.time_interval = this.time_interval;
-            }
-            return data;
-        }
-        serialize(): Uint8Array;
-        serialize(w: pb_1.BinaryWriter): void;
-        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
-            const writer = w || new pb_1.BinaryWriter();
-            if (this.amm_id.length)
-                writer.writeString(1, this.amm_id);
-            if (this.time_interval != 0)
-                writer.writeInt64(2, this.time_interval);
-            if (!w)
-                return writer.getResultBuffer();
-        }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): SubscribeRequestFilterOHLC {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new SubscribeRequestFilterOHLC();
-            while (reader.nextField()) {
-                if (reader.isEndGroup())
-                    break;
-                switch (reader.getFieldNumber()) {
-                    case 1:
-                        message.amm_id = reader.readString();
-                        break;
-                    case 2:
-                        message.time_interval = reader.readInt64();
-                        break;
-                    default: reader.skipField();
-                }
-            }
-            return message;
-        }
-        serializeBinary(): Uint8Array {
-            return this.serialize();
-        }
-        static deserializeBinary(bytes: Uint8Array): SubscribeRequestFilterOHLC {
-            return SubscribeRequestFilterOHLC.deserialize(bytes);
-        }
-    }
     export class SubscribeUpdate extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
@@ -1101,10 +1011,100 @@ export namespace solom {
             return ActionMap.deserialize(bytes);
         }
     }
-    export class VolumeAllWindow extends pb_1.Message {
+    export class GetOneMinuteVolumeByWindowArgs extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
-            volume?: Map<string, ActionMap>;
+            mint?: string;
+            duration?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("mint" in data && data.mint != undefined) {
+                    this.mint = data.mint;
+                }
+                if ("duration" in data && data.duration != undefined) {
+                    this.duration = data.duration;
+                }
+            }
+        }
+        get mint() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set mint(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get duration() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set duration(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            mint?: string;
+            duration?: number;
+        }): GetOneMinuteVolumeByWindowArgs {
+            const message = new GetOneMinuteVolumeByWindowArgs({});
+            if (data.mint != null) {
+                message.mint = data.mint;
+            }
+            if (data.duration != null) {
+                message.duration = data.duration;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                mint?: string;
+                duration?: number;
+            } = {};
+            if (this.mint != null) {
+                data.mint = this.mint;
+            }
+            if (this.duration != null) {
+                data.duration = this.duration;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.mint.length)
+                writer.writeString(1, this.mint);
+            if (this.duration != 0)
+                writer.writeInt32(2, this.duration);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetOneMinuteVolumeByWindowArgs {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new GetOneMinuteVolumeByWindowArgs();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.mint = reader.readString();
+                        break;
+                    case 2:
+                        message.duration = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): GetOneMinuteVolumeByWindowArgs {
+            return GetOneMinuteVolumeByWindowArgs.deserialize(bytes);
+        }
+    }
+    export class OneMinuteVolumeByWindow extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            volume?: Map<number, ActionMap>;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -1117,26 +1117,26 @@ export namespace solom {
                 this.volume = new Map();
         }
         get volume() {
-            return pb_1.Message.getField(this, 1) as any as Map<string, ActionMap>;
+            return pb_1.Message.getField(this, 1) as any as Map<number, ActionMap>;
         }
-        set volume(value: Map<string, ActionMap>) {
+        set volume(value: Map<number, ActionMap>) {
             pb_1.Message.setField(this, 1, value as any);
         }
         static fromObject(data: {
             volume?: {
-                [key: string]: ReturnType<typeof ActionMap.prototype.toObject>;
+                [key: number]: ReturnType<typeof ActionMap.prototype.toObject>;
             };
-        }): VolumeAllWindow {
-            const message = new VolumeAllWindow({});
+        }): OneMinuteVolumeByWindow {
+            const message = new OneMinuteVolumeByWindow({});
             if (typeof data.volume == "object") {
-                message.volume = new Map(Object.entries(data.volume).map(([key, value]) => [key, ActionMap.fromObject(value)]));
+                message.volume = new Map(Object.entries(data.volume).map(([key, value]) => [Number(key), ActionMap.fromObject(value)]));
             }
             return message;
         }
         toObject() {
             const data: {
                 volume?: {
-                    [key: string]: ReturnType<typeof ActionMap.prototype.toObject>;
+                    [key: number]: ReturnType<typeof ActionMap.prototype.toObject>;
                 };
             } = {};
             if (this.volume != null) {
@@ -1150,21 +1150,21 @@ export namespace solom {
             const writer = w || new pb_1.BinaryWriter();
             for (const [key, value] of this.volume) {
                 writer.writeMessage(1, this.volume, () => {
-                    writer.writeString(1, key);
+                    writer.writeInt32(1, key);
                     writer.writeMessage(2, value, () => value.serialize(writer));
                 });
             }
             if (!w)
                 return writer.getResultBuffer();
         }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): VolumeAllWindow {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new VolumeAllWindow();
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): OneMinuteVolumeByWindow {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new OneMinuteVolumeByWindow();
             while (reader.nextField()) {
                 if (reader.isEndGroup())
                     break;
                 switch (reader.getFieldNumber()) {
                     case 1:
-                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.volume as any, reader, reader.readString, () => {
+                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.volume as any, reader, reader.readInt32, () => {
                             let value;
                             reader.readMessage(message, () => value = ActionMap.deserialize(reader));
                             return value;
@@ -1178,8 +1178,8 @@ export namespace solom {
         serializeBinary(): Uint8Array {
             return this.serialize();
         }
-        static deserializeBinary(bytes: Uint8Array): VolumeAllWindow {
-            return VolumeAllWindow.deserialize(bytes);
+        static deserializeBinary(bytes: Uint8Array): OneMinuteVolumeByWindow {
+            return OneMinuteVolumeByWindow.deserialize(bytes);
         }
     }
     export class GetOHLCPriceAllWindowArgs extends pb_1.Message {
@@ -1692,14 +1692,14 @@ export namespace solom {
                 responseSerialize: (message: PriceAllWindow) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => PriceAllWindow.deserialize(new Uint8Array(bytes))
             },
-            GetVolumeAllWindow: {
-                path: "/solom.Anomaly/GetVolumeAllWindow",
+            GetOneMinuteVolumeByWindow: {
+                path: "/solom.Anomaly/GetOneMinuteVolumeByWindow",
                 requestStream: false,
                 responseStream: false,
-                requestSerialize: (message: AmmId) => Buffer.from(message.serialize()),
-                requestDeserialize: (bytes: Buffer) => AmmId.deserialize(new Uint8Array(bytes)),
-                responseSerialize: (message: VolumeAllWindow) => Buffer.from(message.serialize()),
-                responseDeserialize: (bytes: Buffer) => VolumeAllWindow.deserialize(new Uint8Array(bytes))
+                requestSerialize: (message: GetOneMinuteVolumeByWindowArgs) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => GetOneMinuteVolumeByWindowArgs.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: OneMinuteVolumeByWindow) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => OneMinuteVolumeByWindow.deserialize(new Uint8Array(bytes))
             },
             GetOHLCPriceAllWindow: {
                 path: "/solom.Anomaly/GetOHLCPriceAllWindow",
@@ -1723,7 +1723,7 @@ export namespace solom {
         [method: string]: grpc_1.UntypedHandleCall;
         abstract Subscribe(call: grpc_1.ServerDuplexStream<SubscribeRequest, SubscribeUpdate>): void;
         abstract GetPriceAllWindow(call: grpc_1.ServerUnaryCall<Mint, PriceAllWindow>, callback: grpc_1.sendUnaryData<PriceAllWindow>): void;
-        abstract GetVolumeAllWindow(call: grpc_1.ServerUnaryCall<AmmId, VolumeAllWindow>, callback: grpc_1.sendUnaryData<VolumeAllWindow>): void;
+        abstract GetOneMinuteVolumeByWindow(call: grpc_1.ServerUnaryCall<GetOneMinuteVolumeByWindowArgs, OneMinuteVolumeByWindow>, callback: grpc_1.sendUnaryData<OneMinuteVolumeByWindow>): void;
         abstract GetOHLCPriceAllWindow(call: grpc_1.ServerUnaryCall<GetOHLCPriceAllWindowArgs, OHLCPriceAllWindow>, callback: grpc_1.sendUnaryData<OHLCPriceAllWindow>): void;
         abstract CheckVolume(call: grpc_1.ServerUnaryCall<CheckVolumeArgs, Boolean>, callback: grpc_1.sendUnaryData<Boolean>): void;
     }
@@ -1737,8 +1737,8 @@ export namespace solom {
         GetPriceAllWindow: GrpcUnaryServiceInterface<Mint, PriceAllWindow> = (message: Mint, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<PriceAllWindow>, options?: grpc_1.CallOptions | grpc_1.requestCallback<PriceAllWindow>, callback?: grpc_1.requestCallback<PriceAllWindow>): grpc_1.ClientUnaryCall => {
             return super.GetPriceAllWindow(message, metadata, options, callback);
         };
-        GetVolumeAllWindow: GrpcUnaryServiceInterface<AmmId, VolumeAllWindow> = (message: AmmId, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<VolumeAllWindow>, options?: grpc_1.CallOptions | grpc_1.requestCallback<VolumeAllWindow>, callback?: grpc_1.requestCallback<VolumeAllWindow>): grpc_1.ClientUnaryCall => {
-            return super.GetVolumeAllWindow(message, metadata, options, callback);
+        GetOneMinuteVolumeByWindow: GrpcUnaryServiceInterface<GetOneMinuteVolumeByWindowArgs, OneMinuteVolumeByWindow> = (message: GetOneMinuteVolumeByWindowArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<OneMinuteVolumeByWindow>, options?: grpc_1.CallOptions | grpc_1.requestCallback<OneMinuteVolumeByWindow>, callback?: grpc_1.requestCallback<OneMinuteVolumeByWindow>): grpc_1.ClientUnaryCall => {
+            return super.GetOneMinuteVolumeByWindow(message, metadata, options, callback);
         };
         GetOHLCPriceAllWindow: GrpcUnaryServiceInterface<GetOHLCPriceAllWindowArgs, OHLCPriceAllWindow> = (message: GetOHLCPriceAllWindowArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<OHLCPriceAllWindow>, options?: grpc_1.CallOptions | grpc_1.requestCallback<OHLCPriceAllWindow>, callback?: grpc_1.requestCallback<OHLCPriceAllWindow>): grpc_1.ClientUnaryCall => {
             return super.GetOHLCPriceAllWindow(message, metadata, options, callback);

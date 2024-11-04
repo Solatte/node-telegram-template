@@ -123,13 +123,13 @@ export class GrpcClient {
         })
     }
 
-    public getVolumeAllWindow(amm_id: string): Promise<solom.VolumeAllWindow | undefined> {
+    public getOneMinuteVolumeByWindow(mint: string, duration: number): Promise<solom.OneMinuteVolumeByWindow | undefined> {
         return new Promise((resolve, reject) => {
             let options: CallOptions = {
             }
 
-            this.client.GetVolumeAllWindow(
-                new solom.AmmId({ amm_id }),
+            this.client.GetOneMinuteVolumeByWindow(
+                new solom.GetOneMinuteVolumeByWindowArgs({ mint, duration }),
                 new Metadata({ waitForReady: true }),
                 options,
                 (error, data) => {

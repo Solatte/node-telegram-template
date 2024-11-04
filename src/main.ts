@@ -19,7 +19,7 @@ async function main() {
 
 	let amm_id = "3bhsmuvsbxtpbisbby5jtmz5xrfj9ymr89xpm6bgytq1"
 
-	let volume = await grpcClient.getVolumeAllWindow(amm_id)
+	let volume = await grpcClient.getOneMinuteVolumeByWindow(amm_id, 5)
 	if (!volume) return
 	console.log(volume.toObject())
 
@@ -32,7 +32,7 @@ async function main() {
 	})
 	if (!volume) return
 	console.log(checkVolume)
-	grpcClient.subscribe({})
+	grpcClient.subscribe({ transaction: { mint: ["H7dmoe1zwv8w5kWudmm6D28vStzYzLDgBeJG6652pump"] } })
 
 	// initTelegramBot()
 }
