@@ -15,7 +15,7 @@ type SubscribeArgs = {
     }
 }
 
-type CheckVolumeArgs = {
+type IsAmmGoodArgs = {
     time_range: string[];
     action: string;
     operator: string;
@@ -142,13 +142,13 @@ export class GrpcClient {
         })
     }
 
-    public checkVolume(req: CheckVolumeArgs): Promise<boolean | undefined> {
+    public isAmmGood(req: IsAmmGoodArgs): Promise<boolean | undefined> {
         return new Promise((resolve, reject) => {
 
-            let request = new solom.CheckVolumeArgs(req)
+            let request = new solom.IsAmmGoodArgs(req)
             let options: CallOptions = {}
 
-            this.client.CheckVolume(
+            this.client.IsAmmGood(
                 request,
                 new Metadata({ waitForReady: true }),
                 options,
@@ -157,6 +157,81 @@ export class GrpcClient {
                         reject(error)
                     } else {
                         resolve(data.value)
+                    }
+                })
+        })
+    }
+    public getMostActiveToken(start_time: number, end_time: number, count: number): Promise<solom.TokenBy | undefined> {
+        return new Promise((resolve, reject) => {
+            let options: CallOptions = {
+            }
+
+            this.client.GetMostActiveToken(
+                new solom.GetTokenByArgs({ start_time, end_time, count }),
+                new Metadata({ waitForReady: true }),
+                options,
+                (error, data) => {
+                    if (error || !data) {
+                        reject(error)
+                    } else {
+                        resolve(data)
+                    }
+                })
+        })
+    }
+
+    public getTokenByTrending(start_time: number, end_time: number, count: number): Promise<solom.TokenBy | undefined> {
+        return new Promise((resolve, reject) => {
+            let options: CallOptions = {
+            }
+
+            this.client.GetTokenByTrending(
+                new solom.GetTokenByArgs({ start_time, end_time, count }),
+                new Metadata({ waitForReady: true }),
+                options,
+                (error, data) => {
+                    if (error || !data) {
+                        reject(error)
+                    } else {
+                        resolve(data)
+                    }
+                })
+        })
+    }
+
+    public getTokenByBuy(start_time: number, end_time: number, count: number): Promise<solom.TokenBy | undefined> {
+        return new Promise((resolve, reject) => {
+            let options: CallOptions = {
+            }
+
+            this.client.GetTokenByBuy(
+                new solom.GetTokenByArgs({ start_time, end_time, count }),
+                new Metadata({ waitForReady: true }),
+                options,
+                (error, data) => {
+                    if (error || !data) {
+                        reject(error)
+                    } else {
+                        resolve(data)
+                    }
+                })
+        })
+    }
+
+    public getTokenBySell(start_time: number, end_time: number, count: number): Promise<solom.TokenBy | undefined> {
+        return new Promise((resolve, reject) => {
+            let options: CallOptions = {
+            }
+
+            this.client.GetTokenBySell(
+                new solom.GetTokenByArgs({ start_time, end_time, count }),
+                new Metadata({ waitForReady: true }),
+                options,
+                (error, data) => {
+                    if (error || !data) {
+                        reject(error)
+                    } else {
+                        resolve(data)
                     }
                 })
         })

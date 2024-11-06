@@ -1489,7 +1489,7 @@ export namespace solom {
             return OHLC.deserialize(bytes);
         }
     }
-    export class CheckVolumeArgs extends pb_1.Message {
+    export class IsAmmGoodArgs extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
             time_range?: string[];
@@ -1554,8 +1554,8 @@ export namespace solom {
             operator?: string;
             value?: number;
             amm_id?: string;
-        }): CheckVolumeArgs {
-            const message = new CheckVolumeArgs({});
+        }): IsAmmGoodArgs {
+            const message = new IsAmmGoodArgs({});
             if (data.time_range != null) {
                 message.time_range = data.time_range;
             }
@@ -1615,8 +1615,8 @@ export namespace solom {
             if (!w)
                 return writer.getResultBuffer();
         }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CheckVolumeArgs {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CheckVolumeArgs();
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): IsAmmGoodArgs {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new IsAmmGoodArgs();
             while (reader.nextField()) {
                 if (reader.isEndGroup())
                     break;
@@ -1644,8 +1644,188 @@ export namespace solom {
         serializeBinary(): Uint8Array {
             return this.serialize();
         }
-        static deserializeBinary(bytes: Uint8Array): CheckVolumeArgs {
-            return CheckVolumeArgs.deserialize(bytes);
+        static deserializeBinary(bytes: Uint8Array): IsAmmGoodArgs {
+            return IsAmmGoodArgs.deserialize(bytes);
+        }
+    }
+    export class GetTokenByArgs extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            start_time?: number;
+            end_time?: number;
+            count?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("start_time" in data && data.start_time != undefined) {
+                    this.start_time = data.start_time;
+                }
+                if ("end_time" in data && data.end_time != undefined) {
+                    this.end_time = data.end_time;
+                }
+                if ("count" in data && data.count != undefined) {
+                    this.count = data.count;
+                }
+            }
+        }
+        get start_time() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set start_time(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get end_time() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set end_time(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get count() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set count(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        static fromObject(data: {
+            start_time?: number;
+            end_time?: number;
+            count?: number;
+        }): GetTokenByArgs {
+            const message = new GetTokenByArgs({});
+            if (data.start_time != null) {
+                message.start_time = data.start_time;
+            }
+            if (data.end_time != null) {
+                message.end_time = data.end_time;
+            }
+            if (data.count != null) {
+                message.count = data.count;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                start_time?: number;
+                end_time?: number;
+                count?: number;
+            } = {};
+            if (this.start_time != null) {
+                data.start_time = this.start_time;
+            }
+            if (this.end_time != null) {
+                data.end_time = this.end_time;
+            }
+            if (this.count != null) {
+                data.count = this.count;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.start_time != 0)
+                writer.writeInt64(1, this.start_time);
+            if (this.end_time != 0)
+                writer.writeInt64(2, this.end_time);
+            if (this.count != 0)
+                writer.writeInt64(3, this.count);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetTokenByArgs {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new GetTokenByArgs();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.start_time = reader.readInt64();
+                        break;
+                    case 2:
+                        message.end_time = reader.readInt64();
+                        break;
+                    case 3:
+                        message.count = reader.readInt64();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): GetTokenByArgs {
+            return GetTokenByArgs.deserialize(bytes);
+        }
+    }
+    export class TokenBy extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            tokens?: string[];
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [1], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("tokens" in data && data.tokens != undefined) {
+                    this.tokens = data.tokens;
+                }
+            }
+        }
+        get tokens() {
+            return pb_1.Message.getFieldWithDefault(this, 1, []) as string[];
+        }
+        set tokens(value: string[]) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        static fromObject(data: {
+            tokens?: string[];
+        }): TokenBy {
+            const message = new TokenBy({});
+            if (data.tokens != null) {
+                message.tokens = data.tokens;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                tokens?: string[];
+            } = {};
+            if (this.tokens != null) {
+                data.tokens = this.tokens;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.tokens.length)
+                writer.writeRepeatedString(1, this.tokens);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): TokenBy {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new TokenBy();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        pb_1.Message.addToRepeatedField(message, 1, reader.readString());
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): TokenBy {
+            return TokenBy.deserialize(bytes);
         }
     }
     interface GrpcUnaryServiceInterface<P, R> {
@@ -1710,14 +1890,50 @@ export namespace solom {
                 responseSerialize: (message: OHLCPriceAllWindow) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => OHLCPriceAllWindow.deserialize(new Uint8Array(bytes))
             },
-            CheckVolume: {
-                path: "/solom.Anomaly/CheckVolume",
+            IsAmmGood: {
+                path: "/solom.Anomaly/IsAmmGood",
                 requestStream: false,
                 responseStream: false,
-                requestSerialize: (message: CheckVolumeArgs) => Buffer.from(message.serialize()),
-                requestDeserialize: (bytes: Buffer) => CheckVolumeArgs.deserialize(new Uint8Array(bytes)),
+                requestSerialize: (message: IsAmmGoodArgs) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => IsAmmGoodArgs.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: Boolean) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => Boolean.deserialize(new Uint8Array(bytes))
+            },
+            GetMostActiveToken: {
+                path: "/solom.Anomaly/GetMostActiveToken",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: GetTokenByArgs) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => GetTokenByArgs.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: TokenBy) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => TokenBy.deserialize(new Uint8Array(bytes))
+            },
+            GetTokenByTrending: {
+                path: "/solom.Anomaly/GetTokenByTrending",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: GetTokenByArgs) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => GetTokenByArgs.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: TokenBy) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => TokenBy.deserialize(new Uint8Array(bytes))
+            },
+            GetTokenByBuy: {
+                path: "/solom.Anomaly/GetTokenByBuy",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: GetTokenByArgs) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => GetTokenByArgs.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: TokenBy) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => TokenBy.deserialize(new Uint8Array(bytes))
+            },
+            GetTokenBySell: {
+                path: "/solom.Anomaly/GetTokenBySell",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: GetTokenByArgs) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => GetTokenByArgs.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: TokenBy) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => TokenBy.deserialize(new Uint8Array(bytes))
             }
         };
         [method: string]: grpc_1.UntypedHandleCall;
@@ -1725,7 +1941,11 @@ export namespace solom {
         abstract GetPriceAllWindow(call: grpc_1.ServerUnaryCall<Mint, PriceAllWindow>, callback: grpc_1.sendUnaryData<PriceAllWindow>): void;
         abstract GetOneMinuteVolumeByWindow(call: grpc_1.ServerUnaryCall<GetOneMinuteVolumeByWindowArgs, OneMinuteVolumeByWindow>, callback: grpc_1.sendUnaryData<OneMinuteVolumeByWindow>): void;
         abstract GetOHLCPriceAllWindow(call: grpc_1.ServerUnaryCall<GetOHLCPriceAllWindowArgs, OHLCPriceAllWindow>, callback: grpc_1.sendUnaryData<OHLCPriceAllWindow>): void;
-        abstract CheckVolume(call: grpc_1.ServerUnaryCall<CheckVolumeArgs, Boolean>, callback: grpc_1.sendUnaryData<Boolean>): void;
+        abstract IsAmmGood(call: grpc_1.ServerUnaryCall<IsAmmGoodArgs, Boolean>, callback: grpc_1.sendUnaryData<Boolean>): void;
+        abstract GetMostActiveToken(call: grpc_1.ServerUnaryCall<GetTokenByArgs, TokenBy>, callback: grpc_1.sendUnaryData<TokenBy>): void;
+        abstract GetTokenByTrending(call: grpc_1.ServerUnaryCall<GetTokenByArgs, TokenBy>, callback: grpc_1.sendUnaryData<TokenBy>): void;
+        abstract GetTokenByBuy(call: grpc_1.ServerUnaryCall<GetTokenByArgs, TokenBy>, callback: grpc_1.sendUnaryData<TokenBy>): void;
+        abstract GetTokenBySell(call: grpc_1.ServerUnaryCall<GetTokenByArgs, TokenBy>, callback: grpc_1.sendUnaryData<TokenBy>): void;
     }
     export class AnomalyClient extends grpc_1.makeGenericClientConstructor(UnimplementedAnomalyService.definition, "Anomaly", {}) {
         constructor(address: string, credentials: grpc_1.ChannelCredentials, options?: Partial<grpc_1.ChannelOptions>) {
@@ -1743,8 +1963,20 @@ export namespace solom {
         GetOHLCPriceAllWindow: GrpcUnaryServiceInterface<GetOHLCPriceAllWindowArgs, OHLCPriceAllWindow> = (message: GetOHLCPriceAllWindowArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<OHLCPriceAllWindow>, options?: grpc_1.CallOptions | grpc_1.requestCallback<OHLCPriceAllWindow>, callback?: grpc_1.requestCallback<OHLCPriceAllWindow>): grpc_1.ClientUnaryCall => {
             return super.GetOHLCPriceAllWindow(message, metadata, options, callback);
         };
-        CheckVolume: GrpcUnaryServiceInterface<CheckVolumeArgs, Boolean> = (message: CheckVolumeArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<Boolean>, options?: grpc_1.CallOptions | grpc_1.requestCallback<Boolean>, callback?: grpc_1.requestCallback<Boolean>): grpc_1.ClientUnaryCall => {
-            return super.CheckVolume(message, metadata, options, callback);
+        IsAmmGood: GrpcUnaryServiceInterface<IsAmmGoodArgs, Boolean> = (message: IsAmmGoodArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<Boolean>, options?: grpc_1.CallOptions | grpc_1.requestCallback<Boolean>, callback?: grpc_1.requestCallback<Boolean>): grpc_1.ClientUnaryCall => {
+            return super.IsAmmGood(message, metadata, options, callback);
+        };
+        GetMostActiveToken: GrpcUnaryServiceInterface<GetTokenByArgs, TokenBy> = (message: GetTokenByArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, options?: grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, callback?: grpc_1.requestCallback<TokenBy>): grpc_1.ClientUnaryCall => {
+            return super.GetMostActiveToken(message, metadata, options, callback);
+        };
+        GetTokenByTrending: GrpcUnaryServiceInterface<GetTokenByArgs, TokenBy> = (message: GetTokenByArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, options?: grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, callback?: grpc_1.requestCallback<TokenBy>): grpc_1.ClientUnaryCall => {
+            return super.GetTokenByTrending(message, metadata, options, callback);
+        };
+        GetTokenByBuy: GrpcUnaryServiceInterface<GetTokenByArgs, TokenBy> = (message: GetTokenByArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, options?: grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, callback?: grpc_1.requestCallback<TokenBy>): grpc_1.ClientUnaryCall => {
+            return super.GetTokenByBuy(message, metadata, options, callback);
+        };
+        GetTokenBySell: GrpcUnaryServiceInterface<GetTokenByArgs, TokenBy> = (message: GetTokenByArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, options?: grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, callback?: grpc_1.requestCallback<TokenBy>): grpc_1.ClientUnaryCall => {
+            return super.GetTokenBySell(message, metadata, options, callback);
         };
     }
 }

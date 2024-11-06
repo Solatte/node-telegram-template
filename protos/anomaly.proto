@@ -9,7 +9,12 @@ service Anomaly {
     rpc GetPriceAllWindow(Mint) returns (PriceAllWindow) {}
     rpc GetOneMinuteVolumeByWindow(GetOneMinuteVolumeByWindowArgs) returns (OneMinuteVolumeByWindow) {}
     rpc GetOHLCPriceAllWindow(GetOHLCPriceAllWindowArgs) returns (OHLCPriceAllWindow) {}
-    rpc CheckVolume(CheckVolumeArgs) returns (Boolean) {}
+    rpc IsAmmGood(IsAmmGoodArgs) returns (Boolean) {}
+
+    rpc GetMostActiveToken(GetTokenByArgs) returns (TokenBy) {}
+    rpc GetTokenByTrending(GetTokenByArgs) returns (TokenBy) {}
+    rpc GetTokenByBuy(GetTokenByArgs) returns (TokenBy) {}
+    rpc GetTokenBySell(GetTokenByArgs) returns (TokenBy) {}
 }
 
 message SubscribeRequest {
@@ -87,10 +92,20 @@ message OHLC {
     double close = 4;
 }
 
-message CheckVolumeArgs {
-    repeated string time_range = 1; 
-   string action = 2; 
-   string operator = 3; 
-   int64 value = 4; 
-   string amm_id = 5; 
+message IsAmmGoodArgs {
+    repeated string time_range = 1;
+    string action = 2;
+    string operator = 3;
+    int64 value = 4;
+    string amm_id = 5;
+}
+
+message GetTokenByArgs {
+    int64 start_time = 1;
+    int64 end_time = 2;
+    int64 count = 3;
+}
+
+message TokenBy {
+    repeated string tokens = 1;
 }

@@ -15,17 +15,6 @@ function deserialize_solom_Boolean(buffer_arg) {
   return protos_anomaly_pb.Boolean.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_solom_CheckVolumeArgs(arg) {
-  if (!(arg instanceof protos_anomaly_pb.CheckVolumeArgs)) {
-    throw new Error('Expected argument of type solom.CheckVolumeArgs');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_solom_CheckVolumeArgs(buffer_arg) {
-  return protos_anomaly_pb.CheckVolumeArgs.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_solom_GetOHLCPriceAllWindowArgs(arg) {
   if (!(arg instanceof protos_anomaly_pb.GetOHLCPriceAllWindowArgs)) {
     throw new Error('Expected argument of type solom.GetOHLCPriceAllWindowArgs');
@@ -46,6 +35,28 @@ function serialize_solom_GetOneMinuteVolumeByWindowArgs(arg) {
 
 function deserialize_solom_GetOneMinuteVolumeByWindowArgs(buffer_arg) {
   return protos_anomaly_pb.GetOneMinuteVolumeByWindowArgs.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_solom_GetTokenByArgs(arg) {
+  if (!(arg instanceof protos_anomaly_pb.GetTokenByArgs)) {
+    throw new Error('Expected argument of type solom.GetTokenByArgs');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_GetTokenByArgs(buffer_arg) {
+  return protos_anomaly_pb.GetTokenByArgs.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_solom_IsAmmGoodArgs(arg) {
+  if (!(arg instanceof protos_anomaly_pb.IsAmmGoodArgs)) {
+    throw new Error('Expected argument of type solom.IsAmmGoodArgs');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_IsAmmGoodArgs(buffer_arg) {
+  return protos_anomaly_pb.IsAmmGoodArgs.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_solom_Mint(arg) {
@@ -114,6 +125,17 @@ function deserialize_solom_SubscribeUpdate(buffer_arg) {
   return protos_anomaly_pb.SubscribeUpdate.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_solom_TokenBy(arg) {
+  if (!(arg instanceof protos_anomaly_pb.TokenBy)) {
+    throw new Error('Expected argument of type solom.TokenBy');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_TokenBy(buffer_arg) {
+  return protos_anomaly_pb.TokenBy.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var AnomalyService = exports.AnomalyService = {
   subscribe: {
@@ -160,16 +182,60 @@ var AnomalyService = exports.AnomalyService = {
     responseSerialize: serialize_solom_OHLCPriceAllWindow,
     responseDeserialize: deserialize_solom_OHLCPriceAllWindow,
   },
-  checkVolume: {
-    path: '/solom.Anomaly/CheckVolume',
+  isAmmGood: {
+    path: '/solom.Anomaly/IsAmmGood',
     requestStream: false,
     responseStream: false,
-    requestType: protos_anomaly_pb.CheckVolumeArgs,
+    requestType: protos_anomaly_pb.IsAmmGoodArgs,
     responseType: protos_anomaly_pb.Boolean,
-    requestSerialize: serialize_solom_CheckVolumeArgs,
-    requestDeserialize: deserialize_solom_CheckVolumeArgs,
+    requestSerialize: serialize_solom_IsAmmGoodArgs,
+    requestDeserialize: deserialize_solom_IsAmmGoodArgs,
     responseSerialize: serialize_solom_Boolean,
     responseDeserialize: deserialize_solom_Boolean,
+  },
+  getMostActiveToken: {
+    path: '/solom.Anomaly/GetMostActiveToken',
+    requestStream: false,
+    responseStream: false,
+    requestType: protos_anomaly_pb.GetTokenByArgs,
+    responseType: protos_anomaly_pb.TokenBy,
+    requestSerialize: serialize_solom_GetTokenByArgs,
+    requestDeserialize: deserialize_solom_GetTokenByArgs,
+    responseSerialize: serialize_solom_TokenBy,
+    responseDeserialize: deserialize_solom_TokenBy,
+  },
+  getTokenByTrending: {
+    path: '/solom.Anomaly/GetTokenByTrending',
+    requestStream: false,
+    responseStream: false,
+    requestType: protos_anomaly_pb.GetTokenByArgs,
+    responseType: protos_anomaly_pb.TokenBy,
+    requestSerialize: serialize_solom_GetTokenByArgs,
+    requestDeserialize: deserialize_solom_GetTokenByArgs,
+    responseSerialize: serialize_solom_TokenBy,
+    responseDeserialize: deserialize_solom_TokenBy,
+  },
+  getTokenByBuy: {
+    path: '/solom.Anomaly/GetTokenByBuy',
+    requestStream: false,
+    responseStream: false,
+    requestType: protos_anomaly_pb.GetTokenByArgs,
+    responseType: protos_anomaly_pb.TokenBy,
+    requestSerialize: serialize_solom_GetTokenByArgs,
+    requestDeserialize: deserialize_solom_GetTokenByArgs,
+    responseSerialize: serialize_solom_TokenBy,
+    responseDeserialize: deserialize_solom_TokenBy,
+  },
+  getTokenBySell: {
+    path: '/solom.Anomaly/GetTokenBySell',
+    requestStream: false,
+    responseStream: false,
+    requestType: protos_anomaly_pb.GetTokenByArgs,
+    responseType: protos_anomaly_pb.TokenBy,
+    requestSerialize: serialize_solom_GetTokenByArgs,
+    requestDeserialize: deserialize_solom_GetTokenByArgs,
+    responseSerialize: serialize_solom_TokenBy,
+    responseDeserialize: deserialize_solom_TokenBy,
   },
 };
 
