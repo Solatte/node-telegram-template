@@ -26,6 +26,17 @@ function deserialize_solom_GetOHLCPriceAllWindowArgs(buffer_arg) {
   return protos_anomaly_pb.GetOHLCPriceAllWindowArgs.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_solom_GetOneMinuteTradeSizeByWindowArgs(arg) {
+  if (!(arg instanceof protos_anomaly_pb.GetOneMinuteTradeSizeByWindowArgs)) {
+    throw new Error('Expected argument of type solom.GetOneMinuteTradeSizeByWindowArgs');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_GetOneMinuteTradeSizeByWindowArgs(buffer_arg) {
+  return protos_anomaly_pb.GetOneMinuteTradeSizeByWindowArgs.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_solom_GetOneMinuteVolumeByWindowArgs(arg) {
   if (!(arg instanceof protos_anomaly_pb.GetOneMinuteVolumeByWindowArgs)) {
     throw new Error('Expected argument of type solom.GetOneMinuteVolumeByWindowArgs');
@@ -46,6 +57,17 @@ function serialize_solom_GetTokenByArgs(arg) {
 
 function deserialize_solom_GetTokenByArgs(buffer_arg) {
   return protos_anomaly_pb.GetTokenByArgs.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_solom_GetWhaleCountByWindowArgs(arg) {
+  if (!(arg instanceof protos_anomaly_pb.GetWhaleCountByWindowArgs)) {
+    throw new Error('Expected argument of type solom.GetWhaleCountByWindowArgs');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_GetWhaleCountByWindowArgs(buffer_arg) {
+  return protos_anomaly_pb.GetWhaleCountByWindowArgs.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_solom_IsAmmGoodArgs(arg) {
@@ -81,6 +103,17 @@ function deserialize_solom_OHLCPriceAllWindow(buffer_arg) {
   return protos_anomaly_pb.OHLCPriceAllWindow.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_solom_OneMinuteTradeSizeByWindow(arg) {
+  if (!(arg instanceof protos_anomaly_pb.OneMinuteTradeSizeByWindow)) {
+    throw new Error('Expected argument of type solom.OneMinuteTradeSizeByWindow');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_OneMinuteTradeSizeByWindow(buffer_arg) {
+  return protos_anomaly_pb.OneMinuteTradeSizeByWindow.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_solom_OneMinuteVolumeByWindow(arg) {
   if (!(arg instanceof protos_anomaly_pb.OneMinuteVolumeByWindow)) {
     throw new Error('Expected argument of type solom.OneMinuteVolumeByWindow');
@@ -101,6 +134,50 @@ function serialize_solom_PriceAllWindow(arg) {
 
 function deserialize_solom_PriceAllWindow(buffer_arg) {
   return protos_anomaly_pb.PriceAllWindow.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_solom_SubscribeEventRequest(arg) {
+  if (!(arg instanceof protos_anomaly_pb.SubscribeEventRequest)) {
+    throw new Error('Expected argument of type solom.SubscribeEventRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_SubscribeEventRequest(buffer_arg) {
+  return protos_anomaly_pb.SubscribeEventRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_solom_SubscribeEventUpdate(arg) {
+  if (!(arg instanceof protos_anomaly_pb.SubscribeEventUpdate)) {
+    throw new Error('Expected argument of type solom.SubscribeEventUpdate');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_SubscribeEventUpdate(buffer_arg) {
+  return protos_anomaly_pb.SubscribeEventUpdate.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_solom_SubscribeGeyserRequest(arg) {
+  if (!(arg instanceof protos_anomaly_pb.SubscribeGeyserRequest)) {
+    throw new Error('Expected argument of type solom.SubscribeGeyserRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_SubscribeGeyserRequest(buffer_arg) {
+  return protos_anomaly_pb.SubscribeGeyserRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_solom_SubscribeGeyserUpdate(arg) {
+  if (!(arg instanceof protos_anomaly_pb.SubscribeGeyserUpdate)) {
+    throw new Error('Expected argument of type solom.SubscribeGeyserUpdate');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_SubscribeGeyserUpdate(buffer_arg) {
+  return protos_anomaly_pb.SubscribeGeyserUpdate.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_solom_SubscribeRequest(arg) {
@@ -136,6 +213,17 @@ function deserialize_solom_TokenBy(buffer_arg) {
   return protos_anomaly_pb.TokenBy.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_solom_WhaleCountByWindow(arg) {
+  if (!(arg instanceof protos_anomaly_pb.WhaleCountByWindow)) {
+    throw new Error('Expected argument of type solom.WhaleCountByWindow');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_solom_WhaleCountByWindow(buffer_arg) {
+  return protos_anomaly_pb.WhaleCountByWindow.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var AnomalyService = exports.AnomalyService = {
   subscribe: {
@@ -148,6 +236,28 @@ var AnomalyService = exports.AnomalyService = {
     requestDeserialize: deserialize_solom_SubscribeRequest,
     responseSerialize: serialize_solom_SubscribeUpdate,
     responseDeserialize: deserialize_solom_SubscribeUpdate,
+  },
+  subscribeEvent: {
+    path: '/solom.Anomaly/SubscribeEvent',
+    requestStream: true,
+    responseStream: true,
+    requestType: protos_anomaly_pb.SubscribeEventRequest,
+    responseType: protos_anomaly_pb.SubscribeEventUpdate,
+    requestSerialize: serialize_solom_SubscribeEventRequest,
+    requestDeserialize: deserialize_solom_SubscribeEventRequest,
+    responseSerialize: serialize_solom_SubscribeEventUpdate,
+    responseDeserialize: deserialize_solom_SubscribeEventUpdate,
+  },
+  subscribeGeyser: {
+    path: '/solom.Anomaly/SubscribeGeyser',
+    requestStream: true,
+    responseStream: true,
+    requestType: protos_anomaly_pb.SubscribeGeyserRequest,
+    responseType: protos_anomaly_pb.SubscribeGeyserUpdate,
+    requestSerialize: serialize_solom_SubscribeGeyserRequest,
+    requestDeserialize: deserialize_solom_SubscribeGeyserRequest,
+    responseSerialize: serialize_solom_SubscribeGeyserUpdate,
+    responseDeserialize: deserialize_solom_SubscribeGeyserUpdate,
   },
   getPriceAllWindow: {
     path: '/solom.Anomaly/GetPriceAllWindow',
@@ -236,6 +346,28 @@ var AnomalyService = exports.AnomalyService = {
     requestDeserialize: deserialize_solom_GetTokenByArgs,
     responseSerialize: serialize_solom_TokenBy,
     responseDeserialize: deserialize_solom_TokenBy,
+  },
+  getWhaleCountByWindow: {
+    path: '/solom.Anomaly/GetWhaleCountByWindow',
+    requestStream: false,
+    responseStream: false,
+    requestType: protos_anomaly_pb.GetWhaleCountByWindowArgs,
+    responseType: protos_anomaly_pb.WhaleCountByWindow,
+    requestSerialize: serialize_solom_GetWhaleCountByWindowArgs,
+    requestDeserialize: deserialize_solom_GetWhaleCountByWindowArgs,
+    responseSerialize: serialize_solom_WhaleCountByWindow,
+    responseDeserialize: deserialize_solom_WhaleCountByWindow,
+  },
+  getOneMinuteTradeSizeByWindow: {
+    path: '/solom.Anomaly/GetOneMinuteTradeSizeByWindow',
+    requestStream: false,
+    responseStream: false,
+    requestType: protos_anomaly_pb.GetOneMinuteTradeSizeByWindowArgs,
+    responseType: protos_anomaly_pb.OneMinuteTradeSizeByWindow,
+    requestSerialize: serialize_solom_GetOneMinuteTradeSizeByWindowArgs,
+    requestDeserialize: deserialize_solom_GetOneMinuteTradeSizeByWindowArgs,
+    responseSerialize: serialize_solom_OneMinuteTradeSizeByWindow,
+    responseDeserialize: deserialize_solom_OneMinuteTradeSizeByWindow,
   },
 };
 

@@ -523,16 +523,19 @@ export namespace solom {
     export class SubscribeUpdate extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
-            dex?: string;
+            source?: string;
             amm_id?: string;
             mint?: string;
             signature?: string;
+            lp_balance_in_sol?: number;
+            signer?: string;
+            action?: number;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
             if (!Array.isArray(data) && typeof data == "object") {
-                if ("dex" in data && data.dex != undefined) {
-                    this.dex = data.dex;
+                if ("source" in data && data.source != undefined) {
+                    this.source = data.source;
                 }
                 if ("amm_id" in data && data.amm_id != undefined) {
                     this.amm_id = data.amm_id;
@@ -543,12 +546,21 @@ export namespace solom {
                 if ("signature" in data && data.signature != undefined) {
                     this.signature = data.signature;
                 }
+                if ("lp_balance_in_sol" in data && data.lp_balance_in_sol != undefined) {
+                    this.lp_balance_in_sol = data.lp_balance_in_sol;
+                }
+                if ("signer" in data && data.signer != undefined) {
+                    this.signer = data.signer;
+                }
+                if ("action" in data && data.action != undefined) {
+                    this.action = data.action;
+                }
             }
         }
-        get dex() {
+        get source() {
             return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
         }
-        set dex(value: string) {
+        set source(value: string) {
             pb_1.Message.setField(this, 1, value);
         }
         get amm_id() {
@@ -569,15 +581,36 @@ export namespace solom {
         set signature(value: string) {
             pb_1.Message.setField(this, 4, value);
         }
+        get lp_balance_in_sol() {
+            return pb_1.Message.getFieldWithDefault(this, 5, 0) as number;
+        }
+        set lp_balance_in_sol(value: number) {
+            pb_1.Message.setField(this, 5, value);
+        }
+        get signer() {
+            return pb_1.Message.getFieldWithDefault(this, 6, "") as string;
+        }
+        set signer(value: string) {
+            pb_1.Message.setField(this, 6, value);
+        }
+        get action() {
+            return pb_1.Message.getFieldWithDefault(this, 7, 0) as number;
+        }
+        set action(value: number) {
+            pb_1.Message.setField(this, 7, value);
+        }
         static fromObject(data: {
-            dex?: string;
+            source?: string;
             amm_id?: string;
             mint?: string;
             signature?: string;
+            lp_balance_in_sol?: number;
+            signer?: string;
+            action?: number;
         }): SubscribeUpdate {
             const message = new SubscribeUpdate({});
-            if (data.dex != null) {
-                message.dex = data.dex;
+            if (data.source != null) {
+                message.source = data.source;
             }
             if (data.amm_id != null) {
                 message.amm_id = data.amm_id;
@@ -588,17 +621,29 @@ export namespace solom {
             if (data.signature != null) {
                 message.signature = data.signature;
             }
+            if (data.lp_balance_in_sol != null) {
+                message.lp_balance_in_sol = data.lp_balance_in_sol;
+            }
+            if (data.signer != null) {
+                message.signer = data.signer;
+            }
+            if (data.action != null) {
+                message.action = data.action;
+            }
             return message;
         }
         toObject() {
             const data: {
-                dex?: string;
+                source?: string;
                 amm_id?: string;
                 mint?: string;
                 signature?: string;
+                lp_balance_in_sol?: number;
+                signer?: string;
+                action?: number;
             } = {};
-            if (this.dex != null) {
-                data.dex = this.dex;
+            if (this.source != null) {
+                data.source = this.source;
             }
             if (this.amm_id != null) {
                 data.amm_id = this.amm_id;
@@ -609,20 +654,35 @@ export namespace solom {
             if (this.signature != null) {
                 data.signature = this.signature;
             }
+            if (this.lp_balance_in_sol != null) {
+                data.lp_balance_in_sol = this.lp_balance_in_sol;
+            }
+            if (this.signer != null) {
+                data.signer = this.signer;
+            }
+            if (this.action != null) {
+                data.action = this.action;
+            }
             return data;
         }
         serialize(): Uint8Array;
         serialize(w: pb_1.BinaryWriter): void;
         serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
             const writer = w || new pb_1.BinaryWriter();
-            if (this.dex.length)
-                writer.writeString(1, this.dex);
+            if (this.source.length)
+                writer.writeString(1, this.source);
             if (this.amm_id.length)
                 writer.writeString(2, this.amm_id);
             if (this.mint.length)
                 writer.writeString(3, this.mint);
             if (this.signature.length)
                 writer.writeString(4, this.signature);
+            if (this.lp_balance_in_sol != 0)
+                writer.writeUint64(5, this.lp_balance_in_sol);
+            if (this.signer.length)
+                writer.writeString(6, this.signer);
+            if (this.action != 0)
+                writer.writeUint64(7, this.action);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -633,7 +693,7 @@ export namespace solom {
                     break;
                 switch (reader.getFieldNumber()) {
                     case 1:
-                        message.dex = reader.readString();
+                        message.source = reader.readString();
                         break;
                     case 2:
                         message.amm_id = reader.readString();
@@ -643,6 +703,15 @@ export namespace solom {
                         break;
                     case 4:
                         message.signature = reader.readString();
+                        break;
+                    case 5:
+                        message.lp_balance_in_sol = reader.readUint64();
+                        break;
+                    case 6:
+                        message.signer = reader.readString();
+                        break;
+                    case 7:
+                        message.action = reader.readUint64();
                         break;
                     default: reader.skipField();
                 }
@@ -654,6 +723,424 @@ export namespace solom {
         }
         static deserializeBinary(bytes: Uint8Array): SubscribeUpdate {
             return SubscribeUpdate.deserialize(bytes);
+        }
+    }
+    export class SubscribeEventRequest extends pb_1.Message {
+        #one_of_decls: number[][] = [[1]];
+        constructor(data?: any[] | ({} & (({
+            source?: string;
+        })))) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("source" in data && data.source != undefined) {
+                    this.source = data.source;
+                }
+            }
+        }
+        get source() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set source(value: string) {
+            pb_1.Message.setOneofField(this, 1, this.#one_of_decls[0], value);
+        }
+        get has_source() {
+            return pb_1.Message.getField(this, 1) != null;
+        }
+        get _source() {
+            const cases: {
+                [index: number]: "none" | "source";
+            } = {
+                0: "none",
+                1: "source"
+            };
+            return cases[pb_1.Message.computeOneofCase(this, [1])];
+        }
+        static fromObject(data: {
+            source?: string;
+        }): SubscribeEventRequest {
+            const message = new SubscribeEventRequest({});
+            if (data.source != null) {
+                message.source = data.source;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                source?: string;
+            } = {};
+            if (this.source != null) {
+                data.source = this.source;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.has_source)
+                writer.writeString(1, this.source);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): SubscribeEventRequest {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new SubscribeEventRequest();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.source = reader.readString();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): SubscribeEventRequest {
+            return SubscribeEventRequest.deserialize(bytes);
+        }
+    }
+    export class SubscribeEventUpdate extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            source?: string;
+            amm_id?: string;
+            mint?: string;
+            signature?: string;
+            event?: string;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("source" in data && data.source != undefined) {
+                    this.source = data.source;
+                }
+                if ("amm_id" in data && data.amm_id != undefined) {
+                    this.amm_id = data.amm_id;
+                }
+                if ("mint" in data && data.mint != undefined) {
+                    this.mint = data.mint;
+                }
+                if ("signature" in data && data.signature != undefined) {
+                    this.signature = data.signature;
+                }
+                if ("event" in data && data.event != undefined) {
+                    this.event = data.event;
+                }
+            }
+        }
+        get source() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set source(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get amm_id() {
+            return pb_1.Message.getFieldWithDefault(this, 2, "") as string;
+        }
+        set amm_id(value: string) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get mint() {
+            return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
+        }
+        set mint(value: string) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        get signature() {
+            return pb_1.Message.getFieldWithDefault(this, 4, "") as string;
+        }
+        set signature(value: string) {
+            pb_1.Message.setField(this, 4, value);
+        }
+        get event() {
+            return pb_1.Message.getFieldWithDefault(this, 5, "") as string;
+        }
+        set event(value: string) {
+            pb_1.Message.setField(this, 5, value);
+        }
+        static fromObject(data: {
+            source?: string;
+            amm_id?: string;
+            mint?: string;
+            signature?: string;
+            event?: string;
+        }): SubscribeEventUpdate {
+            const message = new SubscribeEventUpdate({});
+            if (data.source != null) {
+                message.source = data.source;
+            }
+            if (data.amm_id != null) {
+                message.amm_id = data.amm_id;
+            }
+            if (data.mint != null) {
+                message.mint = data.mint;
+            }
+            if (data.signature != null) {
+                message.signature = data.signature;
+            }
+            if (data.event != null) {
+                message.event = data.event;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                source?: string;
+                amm_id?: string;
+                mint?: string;
+                signature?: string;
+                event?: string;
+            } = {};
+            if (this.source != null) {
+                data.source = this.source;
+            }
+            if (this.amm_id != null) {
+                data.amm_id = this.amm_id;
+            }
+            if (this.mint != null) {
+                data.mint = this.mint;
+            }
+            if (this.signature != null) {
+                data.signature = this.signature;
+            }
+            if (this.event != null) {
+                data.event = this.event;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.source.length)
+                writer.writeString(1, this.source);
+            if (this.amm_id.length)
+                writer.writeString(2, this.amm_id);
+            if (this.mint.length)
+                writer.writeString(3, this.mint);
+            if (this.signature.length)
+                writer.writeString(4, this.signature);
+            if (this.event.length)
+                writer.writeString(5, this.event);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): SubscribeEventUpdate {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new SubscribeEventUpdate();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.source = reader.readString();
+                        break;
+                    case 2:
+                        message.amm_id = reader.readString();
+                        break;
+                    case 3:
+                        message.mint = reader.readString();
+                        break;
+                    case 4:
+                        message.signature = reader.readString();
+                        break;
+                    case 5:
+                        message.event = reader.readString();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): SubscribeEventUpdate {
+            return SubscribeEventUpdate.deserialize(bytes);
+        }
+    }
+    export class SubscribeGeyserRequest extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            address?: string;
+            is_listening?: boolean;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("address" in data && data.address != undefined) {
+                    this.address = data.address;
+                }
+                if ("is_listening" in data && data.is_listening != undefined) {
+                    this.is_listening = data.is_listening;
+                }
+            }
+        }
+        get address() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set address(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get is_listening() {
+            return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+        }
+        set is_listening(value: boolean) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            address?: string;
+            is_listening?: boolean;
+        }): SubscribeGeyserRequest {
+            const message = new SubscribeGeyserRequest({});
+            if (data.address != null) {
+                message.address = data.address;
+            }
+            if (data.is_listening != null) {
+                message.is_listening = data.is_listening;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                address?: string;
+                is_listening?: boolean;
+            } = {};
+            if (this.address != null) {
+                data.address = this.address;
+            }
+            if (this.is_listening != null) {
+                data.is_listening = this.is_listening;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.address.length)
+                writer.writeString(1, this.address);
+            if (this.is_listening != false)
+                writer.writeBool(2, this.is_listening);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): SubscribeGeyserRequest {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new SubscribeGeyserRequest();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.address = reader.readString();
+                        break;
+                    case 2:
+                        message.is_listening = reader.readBool();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): SubscribeGeyserRequest {
+            return SubscribeGeyserRequest.deserialize(bytes);
+        }
+    }
+    export class SubscribeGeyserUpdate extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            address?: string;
+            is_listening?: boolean;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("address" in data && data.address != undefined) {
+                    this.address = data.address;
+                }
+                if ("is_listening" in data && data.is_listening != undefined) {
+                    this.is_listening = data.is_listening;
+                }
+            }
+        }
+        get address() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set address(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get is_listening() {
+            return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+        }
+        set is_listening(value: boolean) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            address?: string;
+            is_listening?: boolean;
+        }): SubscribeGeyserUpdate {
+            const message = new SubscribeGeyserUpdate({});
+            if (data.address != null) {
+                message.address = data.address;
+            }
+            if (data.is_listening != null) {
+                message.is_listening = data.is_listening;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                address?: string;
+                is_listening?: boolean;
+            } = {};
+            if (this.address != null) {
+                data.address = this.address;
+            }
+            if (this.is_listening != null) {
+                data.is_listening = this.is_listening;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.address.length)
+                writer.writeString(1, this.address);
+            if (this.is_listening != false)
+                writer.writeBool(2, this.is_listening);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): SubscribeGeyserUpdate {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new SubscribeGeyserUpdate();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.address = reader.readString();
+                        break;
+                    case 2:
+                        message.is_listening = reader.readBool();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): SubscribeGeyserUpdate {
+            return SubscribeGeyserUpdate.deserialize(bytes);
         }
     }
     export class AmmId extends pb_1.Message {
@@ -934,83 +1421,6 @@ export namespace solom {
             return PriceAllWindow.deserialize(bytes);
         }
     }
-    export class ActionMap extends pb_1.Message {
-        #one_of_decls: number[][] = [];
-        constructor(data?: any[] | {
-            volume?: Map<string, number>;
-        }) {
-            super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
-            if (!Array.isArray(data) && typeof data == "object") {
-                if ("volume" in data && data.volume != undefined) {
-                    this.volume = data.volume;
-                }
-            }
-            if (!this.volume)
-                this.volume = new Map();
-        }
-        get volume() {
-            return pb_1.Message.getField(this, 1) as any as Map<string, number>;
-        }
-        set volume(value: Map<string, number>) {
-            pb_1.Message.setField(this, 1, value as any);
-        }
-        static fromObject(data: {
-            volume?: {
-                [key: string]: number;
-            };
-        }): ActionMap {
-            const message = new ActionMap({});
-            if (typeof data.volume == "object") {
-                message.volume = new Map(Object.entries(data.volume));
-            }
-            return message;
-        }
-        toObject() {
-            const data: {
-                volume?: {
-                    [key: string]: number;
-                };
-            } = {};
-            if (this.volume != null) {
-                data.volume = (Object.fromEntries)(this.volume);
-            }
-            return data;
-        }
-        serialize(): Uint8Array;
-        serialize(w: pb_1.BinaryWriter): void;
-        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
-            const writer = w || new pb_1.BinaryWriter();
-            for (const [key, value] of this.volume) {
-                writer.writeMessage(1, this.volume, () => {
-                    writer.writeString(1, key);
-                    writer.writeInt64(2, value);
-                });
-            }
-            if (!w)
-                return writer.getResultBuffer();
-        }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ActionMap {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new ActionMap();
-            while (reader.nextField()) {
-                if (reader.isEndGroup())
-                    break;
-                switch (reader.getFieldNumber()) {
-                    case 1:
-                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.volume as any, reader, reader.readString, reader.readInt64));
-                        break;
-                    default: reader.skipField();
-                }
-            }
-            return message;
-        }
-        serializeBinary(): Uint8Array {
-            return this.serialize();
-        }
-        static deserializeBinary(bytes: Uint8Array): ActionMap {
-            return ActionMap.deserialize(bytes);
-        }
-    }
     export class GetOneMinuteVolumeByWindowArgs extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
@@ -1099,6 +1509,83 @@ export namespace solom {
         }
         static deserializeBinary(bytes: Uint8Array): GetOneMinuteVolumeByWindowArgs {
             return GetOneMinuteVolumeByWindowArgs.deserialize(bytes);
+        }
+    }
+    export class ActionMap extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            volume?: Map<string, number>;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("volume" in data && data.volume != undefined) {
+                    this.volume = data.volume;
+                }
+            }
+            if (!this.volume)
+                this.volume = new Map();
+        }
+        get volume() {
+            return pb_1.Message.getField(this, 1) as any as Map<string, number>;
+        }
+        set volume(value: Map<string, number>) {
+            pb_1.Message.setField(this, 1, value as any);
+        }
+        static fromObject(data: {
+            volume?: {
+                [key: string]: number;
+            };
+        }): ActionMap {
+            const message = new ActionMap({});
+            if (typeof data.volume == "object") {
+                message.volume = new Map(Object.entries(data.volume));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                volume?: {
+                    [key: string]: number;
+                };
+            } = {};
+            if (this.volume != null) {
+                data.volume = (Object.fromEntries)(this.volume);
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            for (const [key, value] of this.volume) {
+                writer.writeMessage(1, this.volume, () => {
+                    writer.writeString(1, key);
+                    writer.writeInt64(2, value);
+                });
+            }
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): ActionMap {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new ActionMap();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.volume as any, reader, reader.readString, reader.readInt64));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): ActionMap {
+            return ActionMap.deserialize(bytes);
         }
     }
     export class OneMinuteVolumeByWindow extends pb_1.Message {
@@ -1828,6 +2315,759 @@ export namespace solom {
             return TokenBy.deserialize(bytes);
         }
     }
+    export class GetWhaleCountByWindowArgs extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            mint?: string;
+            duration?: number;
+            min?: number;
+            max?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("mint" in data && data.mint != undefined) {
+                    this.mint = data.mint;
+                }
+                if ("duration" in data && data.duration != undefined) {
+                    this.duration = data.duration;
+                }
+                if ("min" in data && data.min != undefined) {
+                    this.min = data.min;
+                }
+                if ("max" in data && data.max != undefined) {
+                    this.max = data.max;
+                }
+            }
+        }
+        get mint() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set mint(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get duration() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set duration(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get min() {
+            return pb_1.Message.getFieldWithDefault(this, 3, 0) as number;
+        }
+        set min(value: number) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        get max() {
+            return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
+        }
+        set max(value: number) {
+            pb_1.Message.setField(this, 4, value);
+        }
+        static fromObject(data: {
+            mint?: string;
+            duration?: number;
+            min?: number;
+            max?: number;
+        }): GetWhaleCountByWindowArgs {
+            const message = new GetWhaleCountByWindowArgs({});
+            if (data.mint != null) {
+                message.mint = data.mint;
+            }
+            if (data.duration != null) {
+                message.duration = data.duration;
+            }
+            if (data.min != null) {
+                message.min = data.min;
+            }
+            if (data.max != null) {
+                message.max = data.max;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                mint?: string;
+                duration?: number;
+                min?: number;
+                max?: number;
+            } = {};
+            if (this.mint != null) {
+                data.mint = this.mint;
+            }
+            if (this.duration != null) {
+                data.duration = this.duration;
+            }
+            if (this.min != null) {
+                data.min = this.min;
+            }
+            if (this.max != null) {
+                data.max = this.max;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.mint.length)
+                writer.writeString(1, this.mint);
+            if (this.duration != 0)
+                writer.writeInt32(2, this.duration);
+            if (this.min != 0)
+                writer.writeInt64(3, this.min);
+            if (this.max != 0)
+                writer.writeInt64(4, this.max);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetWhaleCountByWindowArgs {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new GetWhaleCountByWindowArgs();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.mint = reader.readString();
+                        break;
+                    case 2:
+                        message.duration = reader.readInt32();
+                        break;
+                    case 3:
+                        message.min = reader.readInt64();
+                        break;
+                    case 4:
+                        message.max = reader.readInt64();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): GetWhaleCountByWindowArgs {
+            return GetWhaleCountByWindowArgs.deserialize(bytes);
+        }
+    }
+    export class CountMap extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            direction?: Map<string, number>;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("direction" in data && data.direction != undefined) {
+                    this.direction = data.direction;
+                }
+            }
+            if (!this.direction)
+                this.direction = new Map();
+        }
+        get direction() {
+            return pb_1.Message.getField(this, 1) as any as Map<string, number>;
+        }
+        set direction(value: Map<string, number>) {
+            pb_1.Message.setField(this, 1, value as any);
+        }
+        static fromObject(data: {
+            direction?: {
+                [key: string]: number;
+            };
+        }): CountMap {
+            const message = new CountMap({});
+            if (typeof data.direction == "object") {
+                message.direction = new Map(Object.entries(data.direction));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                direction?: {
+                    [key: string]: number;
+                };
+            } = {};
+            if (this.direction != null) {
+                data.direction = (Object.fromEntries)(this.direction);
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            for (const [key, value] of this.direction) {
+                writer.writeMessage(1, this.direction, () => {
+                    writer.writeString(1, key);
+                    writer.writeInt64(2, value);
+                });
+            }
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CountMap {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CountMap();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.direction as any, reader, reader.readString, reader.readInt64));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): CountMap {
+            return CountMap.deserialize(bytes);
+        }
+    }
+    export class WhaleCountByWindow extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            window?: Map<number, CountMap>;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("window" in data && data.window != undefined) {
+                    this.window = data.window;
+                }
+            }
+            if (!this.window)
+                this.window = new Map();
+        }
+        get window() {
+            return pb_1.Message.getField(this, 1) as any as Map<number, CountMap>;
+        }
+        set window(value: Map<number, CountMap>) {
+            pb_1.Message.setField(this, 1, value as any);
+        }
+        static fromObject(data: {
+            window?: {
+                [key: number]: ReturnType<typeof CountMap.prototype.toObject>;
+            };
+        }): WhaleCountByWindow {
+            const message = new WhaleCountByWindow({});
+            if (typeof data.window == "object") {
+                message.window = new Map(Object.entries(data.window).map(([key, value]) => [Number(key), CountMap.fromObject(value)]));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                window?: {
+                    [key: number]: ReturnType<typeof CountMap.prototype.toObject>;
+                };
+            } = {};
+            if (this.window != null) {
+                data.window = (Object.fromEntries)((Array.from)(this.window).map(([key, value]) => [key, value.toObject()]));
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            for (const [key, value] of this.window) {
+                writer.writeMessage(1, this.window, () => {
+                    writer.writeInt32(1, key);
+                    writer.writeMessage(2, value, () => value.serialize(writer));
+                });
+            }
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): WhaleCountByWindow {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new WhaleCountByWindow();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.window as any, reader, reader.readInt32, () => {
+                            let value;
+                            reader.readMessage(message, () => value = CountMap.deserialize(reader));
+                            return value;
+                        }));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): WhaleCountByWindow {
+            return WhaleCountByWindow.deserialize(bytes);
+        }
+    }
+    export class GetOneMinuteTradeSizeByWindowArgs extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            mint?: string;
+            duration?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("mint" in data && data.mint != undefined) {
+                    this.mint = data.mint;
+                }
+                if ("duration" in data && data.duration != undefined) {
+                    this.duration = data.duration;
+                }
+            }
+        }
+        get mint() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set mint(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get duration() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set duration(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            mint?: string;
+            duration?: number;
+        }): GetOneMinuteTradeSizeByWindowArgs {
+            const message = new GetOneMinuteTradeSizeByWindowArgs({});
+            if (data.mint != null) {
+                message.mint = data.mint;
+            }
+            if (data.duration != null) {
+                message.duration = data.duration;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                mint?: string;
+                duration?: number;
+            } = {};
+            if (this.mint != null) {
+                data.mint = this.mint;
+            }
+            if (this.duration != null) {
+                data.duration = this.duration;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.mint.length)
+                writer.writeString(1, this.mint);
+            if (this.duration != 0)
+                writer.writeInt32(2, this.duration);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetOneMinuteTradeSizeByWindowArgs {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new GetOneMinuteTradeSizeByWindowArgs();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.mint = reader.readString();
+                        break;
+                    case 2:
+                        message.duration = reader.readInt32();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): GetOneMinuteTradeSizeByWindowArgs {
+            return GetOneMinuteTradeSizeByWindowArgs.deserialize(bytes);
+        }
+    }
+    export class SizeMap extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            category?: Map<string, number>;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("category" in data && data.category != undefined) {
+                    this.category = data.category;
+                }
+            }
+            if (!this.category)
+                this.category = new Map();
+        }
+        get category() {
+            return pb_1.Message.getField(this, 1) as any as Map<string, number>;
+        }
+        set category(value: Map<string, number>) {
+            pb_1.Message.setField(this, 1, value as any);
+        }
+        static fromObject(data: {
+            category?: {
+                [key: string]: number;
+            };
+        }): SizeMap {
+            const message = new SizeMap({});
+            if (typeof data.category == "object") {
+                message.category = new Map(Object.entries(data.category));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                category?: {
+                    [key: string]: number;
+                };
+            } = {};
+            if (this.category != null) {
+                data.category = (Object.fromEntries)(this.category);
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            for (const [key, value] of this.category) {
+                writer.writeMessage(1, this.category, () => {
+                    writer.writeString(1, key);
+                    writer.writeInt64(2, value);
+                });
+            }
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): SizeMap {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new SizeMap();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.category as any, reader, reader.readString, reader.readInt64));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): SizeMap {
+            return SizeMap.deserialize(bytes);
+        }
+    }
+    export class CategoryMap extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            direction?: Map<string, SizeMap>;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("direction" in data && data.direction != undefined) {
+                    this.direction = data.direction;
+                }
+            }
+            if (!this.direction)
+                this.direction = new Map();
+        }
+        get direction() {
+            return pb_1.Message.getField(this, 1) as any as Map<string, SizeMap>;
+        }
+        set direction(value: Map<string, SizeMap>) {
+            pb_1.Message.setField(this, 1, value as any);
+        }
+        static fromObject(data: {
+            direction?: {
+                [key: string]: ReturnType<typeof SizeMap.prototype.toObject>;
+            };
+        }): CategoryMap {
+            const message = new CategoryMap({});
+            if (typeof data.direction == "object") {
+                message.direction = new Map(Object.entries(data.direction).map(([key, value]) => [key, SizeMap.fromObject(value)]));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                direction?: {
+                    [key: string]: ReturnType<typeof SizeMap.prototype.toObject>;
+                };
+            } = {};
+            if (this.direction != null) {
+                data.direction = (Object.fromEntries)((Array.from)(this.direction).map(([key, value]) => [key, value.toObject()]));
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            for (const [key, value] of this.direction) {
+                writer.writeMessage(1, this.direction, () => {
+                    writer.writeString(1, key);
+                    writer.writeMessage(2, value, () => value.serialize(writer));
+                });
+            }
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CategoryMap {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new CategoryMap();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.direction as any, reader, reader.readString, () => {
+                            let value;
+                            reader.readMessage(message, () => value = SizeMap.deserialize(reader));
+                            return value;
+                        }));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): CategoryMap {
+            return CategoryMap.deserialize(bytes);
+        }
+    }
+    export class OneMinuteTradeSizeByWindow extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            window?: Map<number, CategoryMap>;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("window" in data && data.window != undefined) {
+                    this.window = data.window;
+                }
+            }
+            if (!this.window)
+                this.window = new Map();
+        }
+        get window() {
+            return pb_1.Message.getField(this, 1) as any as Map<number, CategoryMap>;
+        }
+        set window(value: Map<number, CategoryMap>) {
+            pb_1.Message.setField(this, 1, value as any);
+        }
+        static fromObject(data: {
+            window?: {
+                [key: number]: ReturnType<typeof CategoryMap.prototype.toObject>;
+            };
+        }): OneMinuteTradeSizeByWindow {
+            const message = new OneMinuteTradeSizeByWindow({});
+            if (typeof data.window == "object") {
+                message.window = new Map(Object.entries(data.window).map(([key, value]) => [Number(key), CategoryMap.fromObject(value)]));
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                window?: {
+                    [key: number]: ReturnType<typeof CategoryMap.prototype.toObject>;
+                };
+            } = {};
+            if (this.window != null) {
+                data.window = (Object.fromEntries)((Array.from)(this.window).map(([key, value]) => [key, value.toObject()]));
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            for (const [key, value] of this.window) {
+                writer.writeMessage(1, this.window, () => {
+                    writer.writeInt32(1, key);
+                    writer.writeMessage(2, value, () => value.serialize(writer));
+                });
+            }
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): OneMinuteTradeSizeByWindow {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new OneMinuteTradeSizeByWindow();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message, () => pb_1.Map.deserializeBinary(message.window as any, reader, reader.readInt32, () => {
+                            let value;
+                            reader.readMessage(message, () => value = CategoryMap.deserialize(reader));
+                            return value;
+                        }));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): OneMinuteTradeSizeByWindow {
+            return OneMinuteTradeSizeByWindow.deserialize(bytes);
+        }
+    }
+    export class Connect extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            address?: string;
+            active?: boolean;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("address" in data && data.address != undefined) {
+                    this.address = data.address;
+                }
+                if ("active" in data && data.active != undefined) {
+                    this.active = data.active;
+                }
+            }
+        }
+        get address() {
+            return pb_1.Message.getFieldWithDefault(this, 1, "") as string;
+        }
+        set address(value: string) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get active() {
+            return pb_1.Message.getFieldWithDefault(this, 2, false) as boolean;
+        }
+        set active(value: boolean) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        static fromObject(data: {
+            address?: string;
+            active?: boolean;
+        }): Connect {
+            const message = new Connect({});
+            if (data.address != null) {
+                message.address = data.address;
+            }
+            if (data.active != null) {
+                message.active = data.active;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                address?: string;
+                active?: boolean;
+            } = {};
+            if (this.address != null) {
+                data.address = this.address;
+            }
+            if (this.active != null) {
+                data.active = this.active;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.address.length)
+                writer.writeString(1, this.address);
+            if (this.active != false)
+                writer.writeBool(2, this.active);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Connect {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Connect();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.address = reader.readString();
+                        break;
+                    case 2:
+                        message.active = reader.readBool();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): Connect {
+            return Connect.deserialize(bytes);
+        }
+    }
+    export class Close extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {}) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") { }
+        }
+        static fromObject(data: {}): Close {
+            const message = new Close({});
+            return message;
+        }
+        toObject() {
+            const data: {} = {};
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Close {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Close();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): Close {
+            return Close.deserialize(bytes);
+        }
+    }
     interface GrpcUnaryServiceInterface<P, R> {
         (message: P, metadata: grpc_1.Metadata, options: grpc_1.CallOptions, callback: grpc_1.requestCallback<R>): grpc_1.ClientUnaryCall;
         (message: P, metadata: grpc_1.Metadata, callback: grpc_1.requestCallback<R>): grpc_1.ClientUnaryCall;
@@ -1862,6 +3102,24 @@ export namespace solom {
                 requestDeserialize: (bytes: Buffer) => SubscribeRequest.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: SubscribeUpdate) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => SubscribeUpdate.deserialize(new Uint8Array(bytes))
+            },
+            SubscribeEvent: {
+                path: "/solom.Anomaly/SubscribeEvent",
+                requestStream: true,
+                responseStream: true,
+                requestSerialize: (message: SubscribeEventRequest) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => SubscribeEventRequest.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: SubscribeEventUpdate) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => SubscribeEventUpdate.deserialize(new Uint8Array(bytes))
+            },
+            SubscribeGeyser: {
+                path: "/solom.Anomaly/SubscribeGeyser",
+                requestStream: true,
+                responseStream: true,
+                requestSerialize: (message: SubscribeGeyserRequest) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => SubscribeGeyserRequest.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: SubscribeGeyserUpdate) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => SubscribeGeyserUpdate.deserialize(new Uint8Array(bytes))
             },
             GetPriceAllWindow: {
                 path: "/solom.Anomaly/GetPriceAllWindow",
@@ -1934,10 +3192,30 @@ export namespace solom {
                 requestDeserialize: (bytes: Buffer) => GetTokenByArgs.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: TokenBy) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => TokenBy.deserialize(new Uint8Array(bytes))
+            },
+            GetWhaleCountByWindow: {
+                path: "/solom.Anomaly/GetWhaleCountByWindow",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: GetWhaleCountByWindowArgs) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => GetWhaleCountByWindowArgs.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: WhaleCountByWindow) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => WhaleCountByWindow.deserialize(new Uint8Array(bytes))
+            },
+            GetOneMinuteTradeSizeByWindow: {
+                path: "/solom.Anomaly/GetOneMinuteTradeSizeByWindow",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: GetOneMinuteTradeSizeByWindowArgs) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => GetOneMinuteTradeSizeByWindowArgs.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: OneMinuteTradeSizeByWindow) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => OneMinuteTradeSizeByWindow.deserialize(new Uint8Array(bytes))
             }
         };
         [method: string]: grpc_1.UntypedHandleCall;
         abstract Subscribe(call: grpc_1.ServerDuplexStream<SubscribeRequest, SubscribeUpdate>): void;
+        abstract SubscribeEvent(call: grpc_1.ServerDuplexStream<SubscribeEventRequest, SubscribeEventUpdate>): void;
+        abstract SubscribeGeyser(call: grpc_1.ServerDuplexStream<SubscribeGeyserRequest, SubscribeGeyserUpdate>): void;
         abstract GetPriceAllWindow(call: grpc_1.ServerUnaryCall<Mint, PriceAllWindow>, callback: grpc_1.sendUnaryData<PriceAllWindow>): void;
         abstract GetOneMinuteVolumeByWindow(call: grpc_1.ServerUnaryCall<GetOneMinuteVolumeByWindowArgs, OneMinuteVolumeByWindow>, callback: grpc_1.sendUnaryData<OneMinuteVolumeByWindow>): void;
         abstract GetOHLCPriceAllWindow(call: grpc_1.ServerUnaryCall<GetOHLCPriceAllWindowArgs, OHLCPriceAllWindow>, callback: grpc_1.sendUnaryData<OHLCPriceAllWindow>): void;
@@ -1946,6 +3224,8 @@ export namespace solom {
         abstract GetTokenByTrending(call: grpc_1.ServerUnaryCall<GetTokenByArgs, TokenBy>, callback: grpc_1.sendUnaryData<TokenBy>): void;
         abstract GetTokenByBuy(call: grpc_1.ServerUnaryCall<GetTokenByArgs, TokenBy>, callback: grpc_1.sendUnaryData<TokenBy>): void;
         abstract GetTokenBySell(call: grpc_1.ServerUnaryCall<GetTokenByArgs, TokenBy>, callback: grpc_1.sendUnaryData<TokenBy>): void;
+        abstract GetWhaleCountByWindow(call: grpc_1.ServerUnaryCall<GetWhaleCountByWindowArgs, WhaleCountByWindow>, callback: grpc_1.sendUnaryData<WhaleCountByWindow>): void;
+        abstract GetOneMinuteTradeSizeByWindow(call: grpc_1.ServerUnaryCall<GetOneMinuteTradeSizeByWindowArgs, OneMinuteTradeSizeByWindow>, callback: grpc_1.sendUnaryData<OneMinuteTradeSizeByWindow>): void;
     }
     export class AnomalyClient extends grpc_1.makeGenericClientConstructor(UnimplementedAnomalyService.definition, "Anomaly", {}) {
         constructor(address: string, credentials: grpc_1.ChannelCredentials, options?: Partial<grpc_1.ChannelOptions>) {
@@ -1953,6 +3233,12 @@ export namespace solom {
         }
         Subscribe: GrpcChunkServiceInterface<SubscribeRequest, SubscribeUpdate> = (metadata?: grpc_1.Metadata | grpc_1.CallOptions, options?: grpc_1.CallOptions): grpc_1.ClientDuplexStream<SubscribeRequest, SubscribeUpdate> => {
             return super.Subscribe(metadata, options);
+        };
+        SubscribeEvent: GrpcChunkServiceInterface<SubscribeEventRequest, SubscribeEventUpdate> = (metadata?: grpc_1.Metadata | grpc_1.CallOptions, options?: grpc_1.CallOptions): grpc_1.ClientDuplexStream<SubscribeEventRequest, SubscribeEventUpdate> => {
+            return super.SubscribeEvent(metadata, options);
+        };
+        SubscribeGeyser: GrpcChunkServiceInterface<SubscribeGeyserRequest, SubscribeGeyserUpdate> = (metadata?: grpc_1.Metadata | grpc_1.CallOptions, options?: grpc_1.CallOptions): grpc_1.ClientDuplexStream<SubscribeGeyserRequest, SubscribeGeyserUpdate> => {
+            return super.SubscribeGeyser(metadata, options);
         };
         GetPriceAllWindow: GrpcUnaryServiceInterface<Mint, PriceAllWindow> = (message: Mint, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<PriceAllWindow>, options?: grpc_1.CallOptions | grpc_1.requestCallback<PriceAllWindow>, callback?: grpc_1.requestCallback<PriceAllWindow>): grpc_1.ClientUnaryCall => {
             return super.GetPriceAllWindow(message, metadata, options, callback);
@@ -1977,6 +3263,12 @@ export namespace solom {
         };
         GetTokenBySell: GrpcUnaryServiceInterface<GetTokenByArgs, TokenBy> = (message: GetTokenByArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, options?: grpc_1.CallOptions | grpc_1.requestCallback<TokenBy>, callback?: grpc_1.requestCallback<TokenBy>): grpc_1.ClientUnaryCall => {
             return super.GetTokenBySell(message, metadata, options, callback);
+        };
+        GetWhaleCountByWindow: GrpcUnaryServiceInterface<GetWhaleCountByWindowArgs, WhaleCountByWindow> = (message: GetWhaleCountByWindowArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<WhaleCountByWindow>, options?: grpc_1.CallOptions | grpc_1.requestCallback<WhaleCountByWindow>, callback?: grpc_1.requestCallback<WhaleCountByWindow>): grpc_1.ClientUnaryCall => {
+            return super.GetWhaleCountByWindow(message, metadata, options, callback);
+        };
+        GetOneMinuteTradeSizeByWindow: GrpcUnaryServiceInterface<GetOneMinuteTradeSizeByWindowArgs, OneMinuteTradeSizeByWindow> = (message: GetOneMinuteTradeSizeByWindowArgs, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<OneMinuteTradeSizeByWindow>, options?: grpc_1.CallOptions | grpc_1.requestCallback<OneMinuteTradeSizeByWindow>, callback?: grpc_1.requestCallback<OneMinuteTradeSizeByWindow>): grpc_1.ClientUnaryCall => {
+            return super.GetOneMinuteTradeSizeByWindow(message, metadata, options, callback);
         };
     }
 }

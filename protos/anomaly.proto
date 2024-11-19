@@ -5,107 +5,177 @@ option go_package = "/solom/pb";
 package solom;
 
 service Anomaly {
-    rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeUpdate) {}
-    rpc GetPriceAllWindow(Mint) returns (PriceAllWindow) {}
-    rpc GetOneMinuteVolumeByWindow(GetOneMinuteVolumeByWindowArgs) returns (OneMinuteVolumeByWindow) {}
-    rpc GetOHLCPriceAllWindow(GetOHLCPriceAllWindowArgs) returns (OHLCPriceAllWindow) {}
-    rpc IsAmmGood(IsAmmGoodArgs) returns (Boolean) {}
+  rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeUpdate) {}
+  rpc SubscribeEvent(stream SubscribeEventRequest) returns (stream SubscribeEventUpdate) {}
+  rpc SubscribeGeyser(stream SubscribeGeyserRequest) returns (stream SubscribeGeyserUpdate){}
 
-    rpc GetMostActiveToken(GetTokenByArgs) returns (TokenBy) {}
-    rpc GetTokenByTrending(GetTokenByArgs) returns (TokenBy) {}
-    rpc GetTokenByBuy(GetTokenByArgs) returns (TokenBy) {}
-    rpc GetTokenBySell(GetTokenByArgs) returns (TokenBy) {}
+  rpc GetPriceAllWindow(Mint) returns (PriceAllWindow) {}
+  rpc GetOneMinuteVolumeByWindow(GetOneMinuteVolumeByWindowArgs) returns (OneMinuteVolumeByWindow) {}
+  rpc GetOHLCPriceAllWindow(GetOHLCPriceAllWindowArgs) returns (OHLCPriceAllWindow) {}
+  rpc IsAmmGood(IsAmmGoodArgs) returns (Boolean) {}
+
+  rpc GetMostActiveToken(GetTokenByArgs) returns (TokenBy) {}
+  rpc GetTokenByTrending(GetTokenByArgs) returns (TokenBy) {}
+  rpc GetTokenByBuy(GetTokenByArgs) returns (TokenBy) {}
+  rpc GetTokenBySell(GetTokenByArgs) returns (TokenBy) {}
+
+  rpc GetWhaleCountByWindow(GetWhaleCountByWindowArgs) returns (WhaleCountByWindow) {}
+  rpc GetOneMinuteTradeSizeByWindow(GetOneMinuteTradeSizeByWindowArgs) returns (OneMinuteTradeSizeByWindow) {}
 }
 
 message SubscribeRequest {
-    SubscribeRequestFilterSolBalance sol_balance = 1;
-    SubscribeRequestFilterPumpFun pumpfun = 2;
-    SubscribeRequestFilterTransactionFilter transaction = 3;
-    optional string source = 4;
+  SubscribeRequestFilterSolBalance sol_balance = 1;
+  SubscribeRequestFilterPumpFun pumpfun = 2;
+  SubscribeRequestFilterTransactionFilter transaction = 3;
+  optional string source = 4;
 }
 
 message SubscribeRequestFilterSolBalance {
-    optional uint64 min = 1;
-    optional uint64 max = 2;
+  optional uint64 min = 1;
+  optional uint64 max = 2;
 }
 
 message SubscribeRequestFilterPumpFun {
-    optional bool is_pumpfun = 1;
+  optional bool is_pumpfun = 1;
 }
 
 message SubscribeRequestFilterTransactionFilter {
-    repeated string mint = 1;
-    repeated string signer = 2;
-    optional uint64 min = 3;
-    optional uint64 max = 4;
+  repeated string mint = 1;
+  repeated string signer = 2;
+  optional uint64 min = 3;
+  optional uint64 max = 4;
 }
 
 message SubscribeUpdate {
-    string dex = 1;
-    string amm_id = 2;
-    string mint = 3;
-    string signature = 4;
+  string source = 1;
+  string amm_id = 2;
+  string mint = 3;
+  string signature = 4;
+  uint64 lp_balance_in_sol = 5;
+  string signer = 6;
+  uint64 action = 7;
+}
+
+message SubscribeEventRequest {
+  optional string source = 1;
+}
+
+message SubscribeEventUpdate {
+  string source = 1;
+  string amm_id = 2;
+  string mint = 3;
+  string signature = 4;
+  string event = 5;
+}
+
+message SubscribeGeyserRequest {
+  string address = 1;
+  bool is_listening = 2;
+}
+
+message SubscribeGeyserUpdate {
+  string address = 1;
+  bool is_listening = 2;
 }
 
 message AmmId {
-    string amm_id = 1;
+  string amm_id = 1;
 }
 
 message Mint {
-    string mint = 1;
+  string mint = 1;
 }
 
 message Boolean {
-    bool value = 1;
+  bool value = 1;
 }
 
 message PriceAllWindow {
-    map<int32, double> price = 1;
-}
-
-message ActionMap {
-    map<string, int64> volume = 1;
+  map<int32, double> price = 1;
 }
 
 message GetOneMinuteVolumeByWindowArgs {
-    string mint = 1;
-    int32 duration = 2;
+  string mint = 1;
+  int32 duration = 2;
+}
+
+message ActionMap {
+  map<string, int64> volume = 1;
 }
 
 message OneMinuteVolumeByWindow {
-    map<int32, ActionMap> volume = 1;
+  map<int32, ActionMap> volume = 1;
 }
 
 message GetOHLCPriceAllWindowArgs {
-    string mint = 1;
-    int32 duration = 2;
+  string mint = 1;
+  int32 duration = 2;
 }
 
 message OHLCPriceAllWindow {
-    map<int64, OHLC> price = 1;
+  map<int64, OHLC> price = 1;
 }
 
 message OHLC {
-    double open = 1;
-    double high = 2;
-    double low = 3;
-    double close = 4;
+  double open = 1;
+  double high = 2;
+  double low = 3;
+  double close = 4;
 }
 
 message IsAmmGoodArgs {
-    repeated string time_range = 1;
-    string action = 2;
-    string operator = 3;
-    int64 value = 4;
-    string amm_id = 5;
+  repeated string time_range = 1;
+  string action = 2;
+  string operator = 3;
+  int64 value = 4;
+  string amm_id = 5;
 }
 
 message GetTokenByArgs {
-    int64 start_time = 1;
-    int64 end_time = 2;
-    int64 count = 3;
+  int64 start_time = 1;
+  int64 end_time = 2;
+  int64 count = 3;
 }
 
 message TokenBy {
-    repeated string tokens = 1;
+  repeated string tokens = 1;
 }
+
+message GetWhaleCountByWindowArgs {
+  string mint = 1;
+  int32 duration = 2;
+  int64 min = 3;
+  int64 max = 4;
+}
+
+message CountMap {
+  map<string, int64> direction = 1;
+}
+
+message WhaleCountByWindow {
+  map<int32, CountMap> window = 1;
+}
+
+message GetOneMinuteTradeSizeByWindowArgs {
+  string mint = 1;
+  int32 duration = 2;
+}
+
+message SizeMap {
+  map<string, int64> category = 1;
+}
+
+message CategoryMap {
+  map<string, SizeMap> direction = 1;
+}
+
+message OneMinuteTradeSizeByWindow {
+  map<int32, CategoryMap> window = 1;
+}
+
+message Connect {
+  string address = 1;
+  bool active = 2;
+}
+
+message Close{}
