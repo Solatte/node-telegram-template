@@ -85,6 +85,25 @@ export class GrpcClient {
         })
     }
 
+    public subscribeEvent() {
+        let request = new solom.SubscribeEventRequest()
+
+        let options: CallOptions = {}
+        let stream = this.client.SubscribeEvent(options)
+
+        stream.on('data', (chunk: solom.SubscribeEventUpdate) => {
+            console.log('data', chunk.toObject())
+        })
+
+        stream.on('error', (chunk) => {
+            console.log('error', chunk)
+        })
+
+        stream.write(new solom.SubscribeEventRequest(request), (chunk: solom.SubscribeEventUpdate) => {
+            console.log(chunk)
+        })
+    }
+
     public getOHLCPriceAllWindow(mint: string, duration: number): Promise<solom.OHLCPriceAllWindow | undefined> {
         return new Promise((resolve, reject) => {
             let options: CallOptions = {

@@ -8,7 +8,6 @@ async function main() {
 
 	const grpcClient = new GrpcClient(config.get('grpc_url').toString())
 
-
 	/* 	
 	
 		let mint = "F4aLcMxQy6CPcXAuER3J5QgB89n4fqBMs2bcrqQBpump"
@@ -57,6 +56,9 @@ async function main() {
 	token = await grpcClient.getTokenBySell(fiveteenMinutesAgo, now, 5)
 	if (!token) return
 	console.log(token.toObject())
+
+
+	grpcClient.subscribeEvent()
 
 
 	// initTelegramBot()
